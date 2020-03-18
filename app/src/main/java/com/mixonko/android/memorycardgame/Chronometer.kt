@@ -50,14 +50,13 @@ class Chronometer @JvmOverloads constructor(
     }
 
     init {
-
         init()
     }
 
     private fun init() {
-        setText("00:00")
         mBase = SystemClock.elapsedRealtime()
         updateText(mBase)
+        setText("00:00")
 
     }
 
@@ -110,8 +109,9 @@ class Chronometer @JvmOverloads constructor(
 
         if (minutes!= 0)text += df.format(minutes) + ":"
         text += df.format(seconds) + ":"
-        text += Integer.toString(milliseconds)
-
+        var textMillis = milliseconds.toString()
+        if (textMillis.length == 1) {textMillis += "0"}
+        text += textMillis
         setText(text)
     }
 
@@ -125,7 +125,7 @@ class Chronometer @JvmOverloads constructor(
                     Message.obtain(
                         mHandler,
                         TICK_WHAT
-                    ), 100
+                    ), 10
                 )
             } else {
                 mHandler.removeMessages(TICK_WHAT)

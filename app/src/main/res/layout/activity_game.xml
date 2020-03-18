@@ -18,13 +18,18 @@
         android:layout_gravity="left|top"
         android:layout_margin="20dp"
         android:textSize="30sp"
-        android:textStyle="bold"
-        android:typeface="monospace" />
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold"  />
 
     <include
         layout="@layout/images"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <include
+        layout="@layout/win_game"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <include
         layout="@layout/game_over"

@@ -1,34 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/game_over_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:visibility="invisible"
     android:gravity="center">
 
     <ImageView
-        android:id="@+id/black_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        android:src="@drawable/black"
-        android:visibility="invisible"/>
+        android:src="@drawable/black" />
 
     <ImageView
-        android:id="@+id/win_view"
-        android:layout_width="287dp"
-        android:layout_height="448dp"
-        android:layout_gravity="center"
-        android:src="@drawable/you_win"
-        android:visibility="invisible" />
-
-    <ImageView
-        android:id="@+id/game_over_view"
         android:layout_width="281dp"
         android:layout_height="106dp"
         android:layout_marginTop="252dp"
         android:layout_gravity="center|top"
-        android:src="@drawable/game_over"
-        android:visibility="invisible" />
+        android:src="@drawable/game_over" />
 
     <ImageView
         android:id="@+id/new_game_view"
@@ -36,7 +26,56 @@
         android:layout_height="91dp"
         android:layout_gravity="center|top"
         android:layout_marginTop="332dp"
-        android:src="@drawable/new_game"
-        android:visibility="invisible" />
+        android:src="@drawable/new_game" />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="120dp">
+
+        <ImageView
+            android:layout_width="241dp"
+            android:layout_height="91dp"
+            android:src="@drawable/current_time" />
+
+        <TextView
+            android:id="@+id/current_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00 : 00"
+            android:layout_gravity="center|right"
+            android:layout_marginRight="30dp"
+            android:textColor="@color/colorWhite"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="50dp">
+
+        <ImageView
+            android:layout_width="241dp"
+            android:layout_height="91dp"
+            android:src="@drawable/best_time" />
+
+        <TextView
+            android:id="@+id/best_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00 : 00"
+            android:layout_gravity="center|right"
+            android:layout_marginRight="30dp"
+            android:textColor="@color/colorWhite"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
+
+    </FrameLayout>
+
+
 
 </FrameLayout>

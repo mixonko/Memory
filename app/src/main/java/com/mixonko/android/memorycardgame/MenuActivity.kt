@@ -10,40 +10,43 @@ import android.os.Vibrator
 import android.preference.PreferenceManager
 import android.view.View
 import android.view.Window
-import android.view.WindowManager
 import android.view.animation.BounceInterpolator
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import java.lang.Exception
 
-class StartMenuActivity : AppCompatActivity(), View.OnClickListener {
+class MenuActivity : AppCompatActivity(), View.OnClickListener {
 
-    lateinit var newGame: Button
-    lateinit var settings: Button
-    lateinit var support: Button
-    lateinit var sp: SharedPreferences
+    private lateinit var newGameButton: Button
+    private lateinit var settingsButton: Button
+    private lateinit var exitButton: Button
+    private lateinit var webViewButton: Button
+    private lateinit var sp: SharedPreferences
 
-    lateinit var mediaPlayerMusic: MediaPlayer
-    lateinit var mediaPlayerButtonsClick: MediaPlayer
+    private lateinit var mediaPlayerMusic: MediaPlayer
+    private lateinit var mediaPlayerButtonsClick: MediaPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(R.layout.activity_start_menu)
+        setContentView(R.layout.activity_menu)
 
         sp = PreferenceManager.getDefaultSharedPreferences(this)
 
         mediaPlayerButtonsClick = MediaPlayer.create(this, R.raw.buttons_sound)
 
-        newGame = findViewById(R.id.play)
-        settings = findViewById(R.id.setting)
-        support = findViewById(R.id.support)
+        newGameButton = findViewById(R.id.play)
+        settingsButton = findViewById(R.id.setting)
+        webViewButton = findViewById(R.id.web_view_button)
+        exitButton = findViewById(R.id.exit)
 
-        newGame.setOnClickListener(this)
+        newGameButton.setOnClickListener(this)
 
-        settings.setOnClickListener(this)
+        settingsButton.setOnClickListener(this)
 
-        support.setOnClickListener(this)
+        webViewButton.setOnClickListener(this)
+
+        exitButton.setOnClickListener(this)
 
         startButtonsAnimation()
     }
@@ -55,7 +58,8 @@ class StartMenuActivity : AppCompatActivity(), View.OnClickListener {
         when (v.id) {
             R.id.play -> startActivity(Intent(this, GameActivity::class.java))
             R.id.setting -> startActivity(Intent(this, PrefActivity::class.java))
-            R.id.support -> finish()
+            R.id.web_view_button -> startActivity(Intent(this, WebViewActivity::class.java))
+            R.id.exit -> finish()
         }
     }
 
@@ -100,15 +104,15 @@ class StartMenuActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun startButtonsAnimation() {
         val bounceInterpolator = BounceInterpolator()
-        val objectAnimator1 = ObjectAnimator.ofFloat(newGame, View.TRANSLATION_Y, -700f, 0f)
+        val objectAnimator1 = ObjectAnimator.ofFloat(newGameButton, View.TRANSLATION_Y, -700f, 0f)
         objectAnimator1.setInterpolator(bounceInterpolator)
         objectAnimator1.setDuration(900).start()
 
-        val objectAnimator3 = ObjectAnimator.ofFloat(settings, View.TRANSLATION_Y, 200f, 0f)
+        val objectAnimator3 = ObjectAnimator.ofFloat(settingsButton, View.TRANSLATION_Y, 200f, 0f)
         objectAnimator3.setInterpolator(bounceInterpolator)
         objectAnimator3.setDuration(900).start()
 
-        val objectAnimator4 = ObjectAnimator.ofFloat(support, View.TRANSLATION_Y, 300f, 0f)
+        val objectAnimator4 = ObjectAnimator.ofFloat(exitButton, View.TRANSLATION_Y, 300f, 0f)
         objectAnimator4.setInterpolator(bounceInterpolator)
         objectAnimator4.setDuration(900).start()
     }

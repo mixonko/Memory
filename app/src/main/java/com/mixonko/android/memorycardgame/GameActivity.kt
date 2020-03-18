@@ -12,10 +12,12 @@ import android.content.SharedPreferences
 import android.media.MediaPlayer
 import android.os.SystemClock
 import android.preference.PreferenceManager
+import android.view.View.TRANSLATION_X
 import android.view.View.TRANSLATION_Y
 import android.view.animation.*
 import android.widget.*
 import java.lang.Exception
+import java.util.*
 
 class GameActivity : AppCompatActivity() {
 
@@ -55,10 +57,12 @@ class GameActivity : AppCompatActivity() {
     private lateinit var imageView43: ImageView
     private lateinit var imageView44: ImageView
 
-    private lateinit var blackView: ImageView
-    private lateinit var winView: ImageView
-    private lateinit var gameOverView: ImageView
+    private lateinit var winView: FrameLayout
+    private lateinit var gameOverView: FrameLayout
     private lateinit var newGameView: ImageView
+
+    private lateinit var currentTimeTextView: TextView
+    private lateinit var bestTimeTextView: TextView
 
     private lateinit var line1: LinearLayout
     private lateinit var line2: LinearLayout
@@ -76,11 +80,13 @@ class GameActivity : AppCompatActivity() {
     private var cardsArray =
         mutableListOf(11, 12, 13, 14, 15, 16, 17, 18, 21, 22, 23, 24, 25, 26, 27, 28)
 
-    private lateinit var sp: SharedPreferences
     private lateinit var settings: SharedPreferences
+    private lateinit var sp: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
 
     private lateinit var mediaPlayer: MediaPlayer
+    private lateinit var mediaPlayerButtonsClick: MediaPlayer
+
     private lateinit var soundPlayerDone: MediaPlayer
     private lateinit var soundPlayerNot: MediaPlayer
 
@@ -92,9 +98,9 @@ class GameActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
-        settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE)
+        sp = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE)
 
-        sp = PreferenceManager.getDefaultSharedPreferences(this)
+        settings = PreferenceManager.getDefaultSharedPreferences(this)
 
         findViewById()
 
@@ -125,6 +131,11 @@ class GameActivity : AppCompatActivity() {
         val objectAnimator4 = ObjectAnimator.ofFloat(line4, TRANSLATION_Y, 800f, 0f)
         objectAnimator4.setInterpolator(bounceInterpolator)
         objectAnimator4.setDuration(900).start()
+
+        val linearInterpolator = LinearInterpolator()
+        val objectAnimator5 = ObjectAnimator.ofFloat(chronometer, TRANSLATION_X, 800f, 0f)
+        objectAnimator5.setInterpolator(linearInterpolator)
+        objectAnimator5.setDuration(400).start()
     }
 
     private fun setTag() {
@@ -163,10 +174,12 @@ class GameActivity : AppCompatActivity() {
         imageView42 = findViewById(R.id.imageView42)
         imageView43 = findViewById(R.id.imageView43)
         imageView44 = findViewById(R.id.imageView44)
-        blackView = findViewById(R.id.black_view)
         winView = findViewById(R.id.win_view)
         gameOverView = findViewById(R.id.game_over_view)
         newGameView = findViewById(R.id.new_game_view)
+
+        currentTimeTextView = findViewById(R.id.current_time)
+        bestTimeTextView = findViewById(R.id.best_time)
 
         line1 = findViewById(R.id.line_1)
         line2 = findViewById(R.id.line_2)
@@ -179,81 +192,89 @@ class GameActivity : AppCompatActivity() {
     private fun setOnClickListener() {
         imageView11.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            onClick(imageView11, theCard)
+            onImageClick(imageView11, theCard)
         }
         imageView12.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            onClick(imageView12, theCard)
+            onImageClick(imageView12, theCard)
         }
         imageView13.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            onClick(imageView13, theCard)
+            onImageClick(imageView13, theCard)
         }
         imageView14.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            onClick(imageView14, theCard)
+            onImageClick(imageView14, theCard)
         }
         imageView21.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            onClick(imageView21, theCard)
+            onImageClick(imageView21, theCard)
         }
         imageView22.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            onClick(imageView22, theCard)
+            onImageClick(imageView22, theCard)
         }
         imageView23.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            onClick(imageView23, theCard)
+            onImageClick(imageView23, theCard)
         }
         imageView24.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            onClick(imageView24, theCard)
+            onImageClick(imageView24, theCard)
         }
         imageView31.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            onClick(imageView31, theCard)
+            onImageClick(imageView31, theCard)
         }
         imageView32.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            onClick(imageView32, theCard)
+            onImageClick(imageView32, theCard)
         }
         imageView33.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            onClick(imageView33, theCard)
+            onImageClick(imageView33, theCard)
         }
         imageView34.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            onClick(imageView34, theCard)
+            onImageClick(imageView34, theCard)
         }
         imageView41.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            onClick(imageView41, theCard)
+            onImageClick(imageView41, theCard)
         }
         imageView42.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            onClick(imageView42, theCard)
+            onImageClick(imageView42, theCard)
         }
         imageView43.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            onClick(imageView43, theCard)
+            onImageClick(imageView43, theCard)
         }
         imageView44.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            onClick(imageView44, theCard)
+            onImageClick(imageView44, theCard)
         }
         newGameView.setOnClickListener {
+            startButtonSound()
             startVibration()
             startActivity(Intent(this, GameActivity::class.java))
             finish()
         }
     }
 
-    private fun startChronometer(){
+    private fun startButtonSound() {
+        if (musicCheck()) {
+            mediaPlayerButtonsClick = MediaPlayer.create(this, R.raw.buttons_sound)
+            mediaPlayerButtonsClick.start()
+        }
+    }
+
+    private fun startChronometer() {
         chronometer.base = SystemClock.elapsedRealtime()
         chronometer.start()
     }
 
-    private fun stopChronometer(){
+    private fun stopChronometer() {
         chronometer.stop()
     }
 
@@ -298,16 +319,16 @@ class GameActivity : AppCompatActivity() {
         imageView.forEach {
             it.animate().withLayer()
                 .scaleX(0.1f)
-                .scaleXBy(0.2f)
+                .scaleXBy(0.115f)
                 .scaleY(0.1f)
-                .scaleYBy(0.2f)
-                .setDuration(600)
+                .scaleYBy(0.115f)
+                .setDuration(500)
                 .withEndAction(
                     Runnable() {
                         it.animate().withLayer()
                             .scaleX(0.001f)
                             .scaleY(0.001f)
-                            .setDuration(400)
+                            .setDuration(300)
                             .start()
                     }
                 ).start()
@@ -331,9 +352,9 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
-    private fun onClick(imageView: ImageView, card: Int) {
+    private fun onImageClick(imageView: ImageView, card: Int) {
         startVibration()
-        if (!chronometer.isRunning()){
+        if (!chronometer.isRunning()) {
             startChronometer()
         }
         when (cardsArray[card]) {
@@ -475,9 +496,9 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
-    private fun musicCheck(): Boolean = sp.getBoolean("music", true)
+    private fun musicCheck(): Boolean = settings.getBoolean("music", true)
 
-    private fun vibrationCheck(): Boolean = sp.getBoolean("vibration", true)
+    private fun vibrationCheck(): Boolean = settings.getBoolean("vibration", true)
 
     private fun imageViewIsEnabled(b: Boolean) {
         imageView11.isEnabled = b
@@ -500,32 +521,51 @@ class GameActivity : AppCompatActivity() {
 
     private fun checkEndGame() {
         if (imageView11.visibility == View.INVISIBLE
-//            && imageView12.visibility == View.INVISIBLE &&
-//            imageView13.visibility == View.INVISIBLE && imageView14.visibility == View.INVISIBLE &&
-//            imageView21.visibility == View.INVISIBLE && imageView22.visibility == View.INVISIBLE &&
-//            imageView23.visibility == View.INVISIBLE && imageView24.visibility == View.INVISIBLE &&
-//            imageView31.visibility == View.INVISIBLE && imageView32.visibility == View.INVISIBLE &&
-//            imageView33.visibility == View.INVISIBLE && imageView34.visibility == View.INVISIBLE &&
-//            imageView41.visibility == View.INVISIBLE && imageView42.visibility == View.INVISIBLE &&
-//            imageView43.visibility == View.INVISIBLE && imageView44.visibility == View.INVISIBLE
+            && imageView12.visibility == View.INVISIBLE &&
+            imageView13.visibility == View.INVISIBLE && imageView14.visibility == View.INVISIBLE &&
+            imageView21.visibility == View.INVISIBLE && imageView22.visibility == View.INVISIBLE &&
+            imageView23.visibility == View.INVISIBLE && imageView24.visibility == View.INVISIBLE &&
+            imageView31.visibility == View.INVISIBLE && imageView32.visibility == View.INVISIBLE &&
+            imageView33.visibility == View.INVISIBLE && imageView34.visibility == View.INVISIBLE &&
+            imageView41.visibility == View.INVISIBLE && imageView42.visibility == View.INVISIBLE &&
+            imageView43.visibility == View.INVISIBLE && imageView44.visibility == View.INVISIBLE
         ) {
-            Toast.makeText(this, "${chronometer.timeElapsed}", Toast.LENGTH_SHORT).show()
             stopChronometer()
-            showGameOver()
-            saveInfo()
+            showWinGame()
+            val handler = Handler()
+            handler.postDelayed(Runnable {
+                showGameOver()
+            }, 1500)
         }
 
     }
 
-    private fun showGameOver(){
-        blackView.visibility = View.VISIBLE
+    private fun showWinGame() {
         winView.visibility = View.VISIBLE
-        val handler = Handler()
-        handler.postDelayed(Runnable {
-            winView.visibility = View.INVISIBLE
-            gameOverView.visibility = View.VISIBLE
-            newGameView.visibility = View.VISIBLE
-        }, 2000)
+    }
+
+    private fun showGameOver() {
+
+        winView.visibility = View.INVISIBLE
+        gameOverView.visibility = View.VISIBLE
+        newGameView.visibility = View.VISIBLE
+
+        currentTimeTextView.setText(chronometer.text.toString())
+        val currentTime: Long = chronometer.timeElapsed
+        var bestTime: Long = sp.getLong(TIME, 0L)
+        if (bestTime == 0L){
+            bestTime = currentTime
+        }
+        if (currentTime < bestTime || currentTime == bestTime){
+            bestTimeTextView.setText(chronometer.text.toString())
+            saveInfo(currentTime, chronometer.text.toString())
+        }
+        if (currentTime > bestTime){
+            bestTimeTextView.setText(sp.getString(TIME_TEXT, "0"))
+            saveInfo(bestTime, bestTimeTextView.text.toString())
+        }
+
+
     }
 
     override fun onResume() {
@@ -553,13 +593,10 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveInfo() {
-
-        editor = settings.edit()
-        val time = chronometer.timeElapsed
-        val timeText = chronometer.text.toString()
-        editor.putLong(TIME, time)
-        editor.putString(TIME_TEXT, timeText)
+    private fun saveInfo(bestTime: Long, bestTimeText: String) {
+        editor = sp.edit()
+        editor.putLong(TIME, bestTime)
+        editor.putString(TIME_TEXT, bestTimeText)
         editor.apply()
     }
 
