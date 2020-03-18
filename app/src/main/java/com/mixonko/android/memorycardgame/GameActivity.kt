@@ -108,7 +108,7 @@ class GameActivity : AppCompatActivity() {
 
         setTag()
 
-//        Collections.shuffle(cardsArray)
+        Collections.shuffle(cardsArray)
 
         setOnClickListener()
 
@@ -471,6 +471,7 @@ class GameActivity : AppCompatActivity() {
 
         }
         imageViewIsEnabled(true)
+
         checkEndGame()
 
     }
