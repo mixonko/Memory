@@ -55,8 +55,10 @@ class Chronometer @JvmOverloads constructor(
     }
 
     private fun init() {
+        setText("00:00")
         mBase = SystemClock.elapsedRealtime()
         updateText(mBase)
+
     }
 
     fun start() {
@@ -69,11 +71,7 @@ class Chronometer @JvmOverloads constructor(
         updateRunning()
     }
 
-
-    fun setStarted(started: Boolean) {
-        mStarted = started
-        updateRunning()
-    }
+    fun isRunning() = mRunning
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
@@ -102,7 +100,7 @@ class Chronometer @JvmOverloads constructor(
         val seconds = remaining / 1000
         remaining = remaining % 1000
 
-        val milliseconds = timeElapsed.toInt() % 1000 / 1
+        val milliseconds = timeElapsed.toInt() % 1000 / 10
 
         var text = ""
 

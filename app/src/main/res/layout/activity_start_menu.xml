@@ -38,7 +38,7 @@
             android:layout_width="194dp"
             android:layout_height="73dp"
             android:layout_marginBottom="61dp"
-            android:background="@drawable/support" />
+            android:background="@drawable/exit" />
 
     </LinearLayout>
 

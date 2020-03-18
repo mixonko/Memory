@@ -16,7 +16,6 @@ import android.view.View.TRANSLATION_Y
 import android.view.animation.*
 import android.widget.*
 import java.lang.Exception
-import java.util.*
 
 class GameActivity : AppCompatActivity() {
 
@@ -107,24 +106,23 @@ class GameActivity : AppCompatActivity() {
 
         setOnClickListener()
 
-        startChronometer()
     }
 
     private fun startLayoutAnimation() {
         val bounceInterpolator = BounceInterpolator()
-        val objectAnimator1 = ObjectAnimator.ofFloat(line1, TRANSLATION_Y, -100f, 0f)
+        val objectAnimator1 = ObjectAnimator.ofFloat(line1, TRANSLATION_Y, -800f, 0f)
         objectAnimator1.setInterpolator(bounceInterpolator)
         objectAnimator1.setDuration(900).start()
 
-        val objectAnimator2 = ObjectAnimator.ofFloat(line2, TRANSLATION_Y, -100f, 0f)
+        val objectAnimator2 = ObjectAnimator.ofFloat(line2, TRANSLATION_Y, -400f, 0f)
         objectAnimator2.setInterpolator(bounceInterpolator)
         objectAnimator2.setDuration(900).start()
 
-        val objectAnimator3 = ObjectAnimator.ofFloat(line3, TRANSLATION_Y, 100f, 0f)
+        val objectAnimator3 = ObjectAnimator.ofFloat(line3, TRANSLATION_Y, 400f, 0f)
         objectAnimator3.setInterpolator(bounceInterpolator)
         objectAnimator3.setDuration(900).start()
 
-        val objectAnimator4 = ObjectAnimator.ofFloat(line4, TRANSLATION_Y, 100f, 0f)
+        val objectAnimator4 = ObjectAnimator.ofFloat(line4, TRANSLATION_Y, 800f, 0f)
         objectAnimator4.setInterpolator(bounceInterpolator)
         objectAnimator4.setDuration(900).start()
     }
@@ -181,73 +179,73 @@ class GameActivity : AppCompatActivity() {
     private fun setOnClickListener() {
         imageView11.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            doStuff(imageView11, theCard)
+            onClick(imageView11, theCard)
         }
         imageView12.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            doStuff(imageView12, theCard)
+            onClick(imageView12, theCard)
         }
         imageView13.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            doStuff(imageView13, theCard)
+            onClick(imageView13, theCard)
         }
         imageView14.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            doStuff(imageView14, theCard)
+            onClick(imageView14, theCard)
         }
         imageView21.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            doStuff(imageView21, theCard)
+            onClick(imageView21, theCard)
         }
         imageView22.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            doStuff(imageView22, theCard)
+            onClick(imageView22, theCard)
         }
         imageView23.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            doStuff(imageView23, theCard)
+            onClick(imageView23, theCard)
         }
         imageView24.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            doStuff(imageView24, theCard)
+            onClick(imageView24, theCard)
         }
         imageView31.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            doStuff(imageView31, theCard)
+            onClick(imageView31, theCard)
         }
         imageView32.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            doStuff(imageView32, theCard)
+            onClick(imageView32, theCard)
         }
         imageView33.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            doStuff(imageView33, theCard)
+            onClick(imageView33, theCard)
         }
         imageView34.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            doStuff(imageView34, theCard)
+            onClick(imageView34, theCard)
         }
         imageView41.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            doStuff(imageView41, theCard)
+            onClick(imageView41, theCard)
         }
         imageView42.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            doStuff(imageView42, theCard)
+            onClick(imageView42, theCard)
         }
         imageView43.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            doStuff(imageView43, theCard)
+            onClick(imageView43, theCard)
         }
         imageView44.setOnClickListener {
             val theCard = it.getTag().toString().toInt()
-            doStuff(imageView44, theCard)
+            onClick(imageView44, theCard)
         }
         newGameView.setOnClickListener {
+            startVibration()
             startActivity(Intent(this, GameActivity::class.java))
             finish()
         }
-
     }
 
     private fun startChronometer(){
@@ -333,9 +331,11 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
-    private fun doStuff(imageView: ImageView, card: Int) {
+    private fun onClick(imageView: ImageView, card: Int) {
         startVibration()
-
+        if (!chronometer.isRunning()){
+            startChronometer()
+        }
         when (cardsArray[card]) {
             11 -> showCardImage(imageView, image11)
             12 -> showCardImage(imageView, image12)
