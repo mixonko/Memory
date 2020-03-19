@@ -299,7 +299,7 @@ class GameActivity : AppCompatActivity() {
     private fun startCountDownTimer() {
         countDownTimerIsRunning = true
         val down: TextView = findViewById(R.id.down)
-        countDownTimer = object : CountDownTimer(1000, 10) {
+        countDownTimer = object : CountDownTimer(120000, 10) {
 
             override fun onTick(millisUntilFinished: Long) {
                 val mTimeFormat = SimpleDateFormat("mm:ss:SS")
