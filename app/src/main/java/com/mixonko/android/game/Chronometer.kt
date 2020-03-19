@@ -34,7 +34,7 @@ class Chronometer @JvmOverloads constructor(
     private val mHandler = object : Handler() {
         override fun handleMessage(m: Message) {
             if (mRunning) {
-                updateText(SystemClock.elapsedRealtime())
+                updateText(SystemClock.elapsedRealtime() )
                 dispatchChronometerTick()
                 sendMessageDelayed(
                     Message.obtain(this, TICK_WHAT),

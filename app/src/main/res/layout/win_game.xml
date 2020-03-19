@@ -1,23 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/win_view"
+    android:id="@+id/win_game_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center"
+    android:orientation="vertical"
     android:visibility="invisible">
 
-    <ImageView
-        android:id="@+id/black_view"
+    <ImageView style="@style/BlackBackground" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:src="@drawable/black" />
+        android:gravity="center"
+        android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="287dp"
-        android:layout_height="448dp"
-        android:layout_gravity="center"
-        android:src="@drawable/you_win"  />
+        <ImageView
+            android:layout_width="287dp"
+            android:layout_height="448dp"
+            android:src="@drawable/you_win" />
+
+        <ImageButton
+            android:id="@+id/win_game_button"
+            android:layout_width="241dp"
+            android:layout_height="91dp"
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/new_game" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|top">
+
+                <ImageView
+                    style="@style/TimeImageView"
+                    android:src="@drawable/current_time" />
+
+                <TextView
+                    android:id="@+id/current_time"
+                    style="@style/TimeTextView" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|top"
+                android:layout_marginTop="70dp">
+
+                <ImageView
+                    style="@style/TimeImageView"
+                    android:src="@drawable/best_time" />
+
+                <TextView
+                    android:id="@+id/best_time"
+                    style="@style/TimeTextView" />
+
+            </FrameLayout>
+        </FrameLayout>
+
+
+    </LinearLayout>
+
 
 </FrameLayout>

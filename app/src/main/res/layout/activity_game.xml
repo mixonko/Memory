@@ -13,13 +13,18 @@
 
     <com.mixonko.android.game.Chronometer
         android:id="@+id/chronometer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/down"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left|top"
-        android:layout_margin="20dp"
-        android:textSize="30sp"
+        android:textSize="50sp"
+        android:text="02:00:00"
         android:textColor="@color/colorWhite"
-        android:textStyle="bold"  />
+        android:layout_gravity="center|top"/>
 
     <include
         layout="@layout/images"
@@ -27,12 +32,12 @@
         android:layout_height="match_parent" />
 
     <include
-        layout="@layout/win_game"
+        layout="@layout/game_over"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
     <include
-        layout="@layout/game_over"
+        layout="@layout/win_game"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

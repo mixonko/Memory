@@ -11,17 +11,17 @@ import android.preference.PreferenceManager
 import android.view.View
 import android.view.Window
 import android.view.animation.BounceInterpolator
-import android.widget.Button
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import com.game.memory.card.game.R
 import java.lang.Exception
 
 class MenuActivity : AppCompatActivity(), View.OnClickListener {
 
-    private lateinit var newGameButton: Button
-    private lateinit var settingsButton: Button
-    private lateinit var exitButton: Button
-    private lateinit var webViewButton: Button
+    private lateinit var newGameButton: ImageButton
+    private lateinit var settingsButton: ImageButton
+    private lateinit var exitButton: ImageButton
+    private lateinit var webViewButton: ImageButton
     private lateinit var sp: SharedPreferences
 
     private lateinit var mediaPlayerMusic: MediaPlayer
@@ -38,10 +38,10 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
             R.raw.buttons_sound
         )
 
-        newGameButton = findViewById(R.id.play)
-        settingsButton = findViewById(R.id.setting)
+        newGameButton = findViewById(R.id.playButton)
+        settingsButton = findViewById(R.id.settingButton)
         webViewButton = findViewById(R.id.web_view_button)
-        exitButton = findViewById(R.id.exit)
+        exitButton = findViewById(R.id.exitButton)
 
         newGameButton.setOnClickListener(this)
 
@@ -59,10 +59,10 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
         startButtonSound()
 
         when (v.id) {
-            R.id.play -> startActivity(Intent(this, GameActivity::class.java))
-            R.id.setting -> startActivity(Intent(this, PrefActivity::class.java))
+            R.id.playButton -> startActivity(Intent(this, GameActivity::class.java))
+            R.id.settingButton -> startActivity(Intent(this, PrefActivity::class.java))
             R.id.web_view_button -> startActivity(Intent(this, WebViewActivity::class.java))
-            R.id.exit -> finish()
+            R.id.exitButton -> finish()
         }
     }
 

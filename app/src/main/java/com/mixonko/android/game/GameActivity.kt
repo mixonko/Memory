@@ -18,7 +18,10 @@ import android.view.animation.*
 import android.widget.*
 import com.game.memory.card.game.R
 import java.lang.Exception
+import android.os.CountDownTimer
+import java.text.SimpleDateFormat
 import java.util.*
+
 
 class GameActivity : AppCompatActivity() {
 
@@ -58,9 +61,10 @@ class GameActivity : AppCompatActivity() {
     private lateinit var imageView43: ImageView
     private lateinit var imageView44: ImageView
 
-    private lateinit var winView: FrameLayout
     private lateinit var gameOverView: FrameLayout
-    private lateinit var newGameView: ImageView
+    private lateinit var winGameView: FrameLayout
+    private lateinit var winGameButton: ImageButton
+    private lateinit var gameOverButton: ImageButton
 
     private lateinit var currentTimeTextView: TextView
     private lateinit var bestTimeTextView: TextView
@@ -95,6 +99,8 @@ class GameActivity : AppCompatActivity() {
     private lateinit var secondImage: ImageView
 
     private lateinit var chronometer: Chronometer
+    private lateinit var countDownTimer: CountDownTimer
+    private var countDownTimerIsRunning = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -175,9 +181,10 @@ class GameActivity : AppCompatActivity() {
         imageView42 = findViewById(R.id.imageView42)
         imageView43 = findViewById(R.id.imageView43)
         imageView44 = findViewById(R.id.imageView44)
-        winView = findViewById(R.id.win_view)
         gameOverView = findViewById(R.id.game_over_view)
-        newGameView = findViewById(R.id.new_game_view)
+        winGameView = findViewById(R.id.win_game_view)
+        winGameButton = findViewById(R.id.win_game_button)
+        gameOverButton = findViewById(R.id.game_over_button)
 
         currentTimeTextView = findViewById(R.id.current_time)
         bestTimeTextView = findViewById(R.id.best_time)
@@ -255,17 +262,25 @@ class GameActivity : AppCompatActivity() {
             val theCard = it.getTag().toString().toInt()
             onImageClick(imageView44, theCard)
         }
-        newGameView.setOnClickListener {
-            startButtonSound()
-            startVibration()
-            startActivity(Intent(this, GameActivity::class.java))
-            finish()
+        winGameButton.setOnClickListener {
+            startNewGame()
         }
+        gameOverButton.setOnClickListener {
+            startNewGame()
+        }
+    }
+
+    private fun startNewGame() {
+        startButtonSound()
+        startVibration()
+        startActivity(Intent(this, GameActivity::class.java))
+        finish()
     }
 
     private fun startButtonSound() {
         if (musicCheck()) {
-            mediaPlayerButtonsClick = MediaPlayer.create(this,
+            mediaPlayerButtonsClick = MediaPlayer.create(
+                this,
                 R.raw.buttons_sound
             )
             mediaPlayerButtonsClick.start()
@@ -279,6 +294,30 @@ class GameActivity : AppCompatActivity() {
 
     private fun stopChronometer() {
         chronometer.stop()
+    }
+
+    private fun startCountDownTimer() {
+        countDownTimerIsRunning = true
+        val down: TextView = findViewById(R.id.down)
+        countDownTimer = object : CountDownTimer(1000, 10) {
+
+            override fun onTick(millisUntilFinished: Long) {
+                val mTimeFormat = SimpleDateFormat("mm:ss:SS")
+                down.setText(mTimeFormat.format(Date(millisUntilFinished)))
+            }
+
+            override fun onFinish() {
+                down.setText(R.string.time_is_over)
+                startGameOverAnimation()
+                showGameOver()
+
+            }
+        }.start()
+    }
+
+    private fun stopCountDownTimer() {
+        countDownTimerIsRunning = false
+        countDownTimer.cancel()
     }
 
     private fun showCardImage(imageView: ImageView, image: Int) {
@@ -296,6 +335,15 @@ class GameActivity : AppCompatActivity() {
                         .start()
                 }
             ).start()
+    }
+
+    private fun startGameOverAnimation() {
+        val images: LinearLayout = findViewById(R.id.images)
+        images.animate().withLayer()
+            .scaleX(0.001f)
+            .scaleY(0.001f)
+            .setDuration(1000)
+            .start()
     }
 
     private fun showBackCardImage(vararg imageView: ImageView) {
@@ -359,6 +407,9 @@ class GameActivity : AppCompatActivity() {
         startVibration()
         if (!chronometer.isRunning()) {
             startChronometer()
+        }
+        if (!countDownTimerIsRunning) {
+            startCountDownTimer()
         }
         when (cardsArray[card]) {
             11 -> showCardImage(imageView, image11)
@@ -488,7 +539,8 @@ class GameActivity : AppCompatActivity() {
 
     private fun startSoundDone() {
         if (musicCheck()) {
-            soundPlayerDone = MediaPlayer.create(this,
+            soundPlayerDone = MediaPlayer.create(
+                this,
                 R.raw.done
             )
             soundPlayerDone.start()
@@ -537,41 +589,33 @@ class GameActivity : AppCompatActivity() {
             imageView43.visibility == View.INVISIBLE && imageView44.visibility == View.INVISIBLE
         ) {
             stopChronometer()
+            stopCountDownTimer()
             showWinGame()
-            val handler = Handler()
-            handler.postDelayed(Runnable {
-                showGameOver()
-            }, 1500)
         }
 
     }
 
     private fun showWinGame() {
-        winView.visibility = View.VISIBLE
-    }
-
-    private fun showGameOver() {
-
-        winView.visibility = View.INVISIBLE
-        gameOverView.visibility = View.VISIBLE
-        newGameView.visibility = View.VISIBLE
+        winGameView.visibility = View.VISIBLE
 
         currentTimeTextView.setText(chronometer.text.toString())
         val currentTime: Long = chronometer.timeElapsed
         var bestTime: Long = sp.getLong(TIME, 0L)
-        if (bestTime == 0L){
+        if (bestTime == 0L) {
             bestTime = currentTime
         }
-        if (currentTime < bestTime || currentTime == bestTime){
+        if (currentTime < bestTime || currentTime == bestTime) {
             bestTimeTextView.setText(chronometer.text.toString())
             saveInfo(currentTime, chronometer.text.toString())
         }
-        if (currentTime > bestTime){
+        if (currentTime > bestTime) {
             bestTimeTextView.setText(sp.getString(TIME_TEXT, "0"))
             saveInfo(bestTime, bestTimeTextView.text.toString())
         }
+    }
 
-
+    private fun showGameOver() {
+        gameOverView.visibility = View.VISIBLE
     }
 
     override fun onResume() {
@@ -588,8 +632,6 @@ class GameActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-
-//        saveInfo()
 
         try {
             mediaPlayer.stop()

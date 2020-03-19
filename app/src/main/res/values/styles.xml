@@ -19,6 +19,37 @@
         <item name="android:orientation">horizontal</item>
     </style>
 
+    <style name="TimeImageView" >
+        <item name="android:layout_width">241dp</item>
+        <item name="android:layout_height">91dp</item>
+    </style>
+
+    <style name="BlackBackground" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:scaleType">fitXY</item>
+        <item name="android:src">@drawable/black</item>
+    </style>
+
+    <style name="NewGameButton" >
+        <item name="android:layout_width">241dp</item>
+        <item name="android:layout_height">91dp</item>
+        <item name="android:layout_gravity">center|top</item>
+        <item name="android:layout_marginTop">332dp</item>
+        <item name="android:src">@drawable/new_game</item>
+    </style>
+
+    <style name="TimeTextView" >
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">@string/time_text</item>
+        <item name="android:layout_gravity">center|right</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginRight">30dp</item>
+    </style>
+
     <style name="ImageView" >
         <item name="android:layout_width">85dp</item>
         <item name="android:layout_height">85dp</item>
