@@ -1,4 +1,4 @@
-package com.mixonko.android.memorycardgame
+package com.mixonko.android.game
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +16,7 @@ import android.view.View.TRANSLATION_X
 import android.view.View.TRANSLATION_Y
 import android.view.animation.*
 import android.widget.*
+import com.game.memory.card.game.R
 import java.lang.Exception
 import java.util.*
 
@@ -264,7 +265,9 @@ class GameActivity : AppCompatActivity() {
 
     private fun startButtonSound() {
         if (musicCheck()) {
-            mediaPlayerButtonsClick = MediaPlayer.create(this, R.raw.buttons_sound)
+            mediaPlayerButtonsClick = MediaPlayer.create(this,
+                R.raw.buttons_sound
+            )
             mediaPlayerButtonsClick.start()
         }
     }
@@ -485,7 +488,9 @@ class GameActivity : AppCompatActivity() {
 
     private fun startSoundDone() {
         if (musicCheck()) {
-            soundPlayerDone = MediaPlayer.create(this, R.raw.done)
+            soundPlayerDone = MediaPlayer.create(this,
+                R.raw.done
+            )
             soundPlayerDone.start()
         }
     }

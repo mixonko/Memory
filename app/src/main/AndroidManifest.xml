@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mixonko.android.memorycardgame">
+    package="com.game.memory.card.game">
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MenuActivity"
+            android:name="com.mixonko.android.game.MenuActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,11 +21,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GameActivity"
+        <activity android:name="com.mixonko.android.game.GameActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".WebViewActivity"
+        <activity android:name="com.mixonko.android.game.WebViewActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".PrefActivity"
+        <activity android:name="com.mixonko.android.game.PrefActivity"
             android:screenOrientation="portrait"
             android:theme="@style/PrefTheme"
             android:label="Preferences"/>

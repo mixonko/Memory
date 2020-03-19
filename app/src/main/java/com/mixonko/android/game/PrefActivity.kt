@@ -1,8 +1,8 @@
-package com.mixonko.android.memorycardgame
+package com.mixonko.android.game
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.preference.PreferenceActivity
+import com.game.memory.card.game.R
 
 class PrefActivity : PreferenceActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

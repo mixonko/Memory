@@ -1,4 +1,4 @@
-package com.mixonko.android.memorycardgame
+package com.mixonko.android.game
 
 import android.webkit.WebViewClient
 import android.webkit.WebResourceRequest

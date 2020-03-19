@@ -1,4 +1,4 @@
-package com.mixonko.android.memorycardgame
+package com.mixonko.android.game
 
 const val APP_PREFERENCES = "com.mixonko.android.memorycardgame.APP_PREFERENCES"
 

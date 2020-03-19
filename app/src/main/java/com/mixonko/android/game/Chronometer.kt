@@ -1,4 +1,4 @@
-package com.mixonko.android.memorycardgame
+package com.mixonko.android.game
 
 import android.content.Context
 import android.os.Handler

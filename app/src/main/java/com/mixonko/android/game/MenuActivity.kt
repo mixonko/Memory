@@ -1,4 +1,4 @@
-package com.mixonko.android.memorycardgame
+package com.mixonko.android.game
 
 import android.animation.ObjectAnimator
 import android.content.Context
@@ -13,6 +13,7 @@ import android.view.Window
 import android.view.animation.BounceInterpolator
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.game.memory.card.game.R
 import java.lang.Exception
 
 class MenuActivity : AppCompatActivity(), View.OnClickListener {
@@ -33,7 +34,9 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
 
         sp = PreferenceManager.getDefaultSharedPreferences(this)
 
-        mediaPlayerButtonsClick = MediaPlayer.create(this, R.raw.buttons_sound)
+        mediaPlayerButtonsClick = MediaPlayer.create(this,
+            R.raw.buttons_sound
+        )
 
         newGameButton = findViewById(R.id.play)
         settingsButton = findViewById(R.id.setting)
@@ -84,7 +87,9 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
     override fun onResume() {
         super.onResume()
         if (musicCheck()) {
-            mediaPlayerMusic = MediaPlayer.create(this, R.raw.music)
+            mediaPlayerMusic = MediaPlayer.create(this,
+                R.raw.music
+            )
             mediaPlayerMusic.isLooping = true
             mediaPlayerMusic.start()
         } else try {
